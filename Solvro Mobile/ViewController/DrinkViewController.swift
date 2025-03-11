@@ -4,6 +4,7 @@
 //
 //  Created by Szymon Protynski on 10/03/2025.
 //
+
 import UIKit
 
 class DrinksViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -20,14 +21,32 @@ class DrinksViewController: UIViewController, UITableViewDataSource, UITableView
         viewModel.fetchDrinks(page: 1)
     }
     
+//    func setupTableView() {
+//        tableView.frame = view.bounds
+//        tableView.dataSource = self
+//        tableView.delegate = self
+//        tableView.register(DrinkTableViewCell.self, forCellReuseIdentifier: "DrinkCell")
+//        view.addSubview(tableView)
+//    }
+//    
     func setupTableView() {
-        tableView.frame = view.bounds
+        // Wyłącz AutoResizingMask, aby użyć Auto Layout
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView.register(DrinkTableViewCell.self, forCellReuseIdentifier: "DrinkCell")
+        
         view.addSubview(tableView)
+        
+        // Ustawienie constraints - wyśrodkowanie i rozmiar 80% widoku
+        NSLayoutConstraint.activate([
+            tableView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            tableView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            tableView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1),
+            tableView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1)
+        ])
     }
-    
+
     func bindViewModel() {
         // Ustawiamy closure, które wywołamy po pobraniu danych
         viewModel.onDataUpdated = { [weak self] in
@@ -42,9 +61,23 @@ class DrinksViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DrinkCell", for: indexPath) as! DrinkTableViewCell
         let drink = viewModel.drinks[indexPath.row]
-        cell.textLabel?.text = drink.name  // Używamy nowej struktury Drink
+        
+        cell.drinkNameLabel.text = drink.name
+        cell.drinkImageView.image = nil
+        
+        if let url = URL(string: drink.imageUrl) {
+            URLSession.shared.dataTask(with: url) { data, response, error in
+                if let data = data, let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        if let updateCell = tableView.cellForRow(at: indexPath) as? DrinkTableViewCell {
+                            updateCell.drinkImageView.image = image
+                        }
+                    }
+                }
+            }.resume()
+        }
         return cell
     }
 }

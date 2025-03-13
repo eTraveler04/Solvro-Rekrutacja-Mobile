@@ -10,11 +10,24 @@ import SwiftUI
 @main
 struct Solvro_MobileApp: App {
     let persistenceController = PersistenceController.shared
-
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            TabView {
+                Text("hello, world!")
+                    .tabItem {
+                        Label("", systemImage: "house")
+                    }
+                DrinksViewControllerRepresentable()
+                    .tabItem {
+                        Label("", systemImage: "wineglass")
+                    }
+                ContentView()
+                    .tabItem {
+                        Label("", systemImage: "person")
+                    }
+            }
+            .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 }

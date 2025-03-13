@@ -1,66 +1,53 @@
-//
-//  DrinkViewController.swift
-//  Solvro Mobile
-//
-//  Created by Szymon Protynski on 10/03/2025.
-//
-
 import UIKit
+import SwiftUI
 
-class DrinksViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    
+class DrinksViewController: UIViewController {
     @Environment(\.managedObjectContext) private var viewContext
     
     let tableView = UITableView()
     let viewModel = DrinksViewModel()
+    var tableManager: DrinksTableManager!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Koktajle"
         view.backgroundColor = .white
+        
         setupTableView()
+        setupTableManager()
         bindViewModel()
-        viewModel.fetchDrinks(page: 1)
+        
+        // Inicjalne ładowanie danych - ustawiamy stan ładowania i pobieramy pierwszą stronę
+        tableManager.isLoading = true
+        viewModel.fetchDrinks(page: tableManager.currentPage)
     }
     
     func setupTableView() {
         tableView.frame = view.bounds
-        tableView.dataSource = self
-        tableView.delegate = self
         tableView.register(DrinkTableViewCell.self, forCellReuseIdentifier: "DrinkCell")
         view.addSubview(tableView)
     }
-
+    
+    func setupTableManager() {
+        tableManager = DrinksTableManager(viewModel: viewModel, onLoadMore: { [weak self] in
+            guard let self = self else { return }
+            self.viewModel.fetchDrinks(page: self.tableManager.currentPage)
+        })
+        tableView.dataSource = tableManager
+        tableView.delegate = tableManager
+    }
+    
     func bindViewModel() {
-        // Ustawiamy closure, które wywołamy po pobraniu danych
         viewModel.onDataUpdated = { [weak self] in
-            self?.tableView.reloadData()
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+                self?.tableManager.loadingCompleted()
+            }
         }
     }
-    
-    // MARK: - UITableViewDataSource
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.drinks.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "DrinkCell", for: indexPath) as! DrinkTableViewCell
-        let drink = viewModel.drinks[indexPath.row]
-        
-        cell.configure(with: drink)
-        
-        return cell
-    }
 }
 
-import SwiftUI
-
-struct DrinksViewController_Previews: PreviewProvider {
-    static var previews: some View {
-        DrinksViewControllerRepresentable()
-    }
-}
+// MARK: - SwiftUI Preview
 
 struct DrinksViewControllerRepresentable: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> DrinksViewController {
@@ -69,5 +56,11 @@ struct DrinksViewControllerRepresentable: UIViewControllerRepresentable {
     
     func updateUIViewController(_ uiViewController: DrinksViewController, context: Context) {
         // Aktualizacje widoku, jeśli są potrzebne
+    }
+}
+
+struct DrinksViewController_Previews: PreviewProvider {
+    static var previews: some View {
+        DrinksViewControllerRepresentable()
     }
 }

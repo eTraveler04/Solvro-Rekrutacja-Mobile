@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B135A7E2D83717200FD48C0 /* DrinksTableManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B135A7D2D83717200FD48C0 /* DrinksTableManager.swift */; };
 		5BA2B4602D7EE28C00F045D7 /* Solvro_MobileApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA2B45F2D7EE28C00F045D7 /* Solvro_MobileApp.swift */; };
 		5BA2B4622D7EE28C00F045D7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA2B4612D7EE28C00F045D7 /* ContentView.swift */; };
 		5BA2B4642D7EE28D00F045D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BA2B4632D7EE28D00F045D7 /* Assets.xcassets */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5B135A7D2D83717200FD48C0 /* DrinksTableManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinksTableManager.swift; sourceTree = "<group>"; };
 		5BA2B45C2D7EE28C00F045D7 /* Solvro Mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Solvro Mobile.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BA2B45F2D7EE28C00F045D7 /* Solvro_MobileApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solvro_MobileApp.swift; sourceTree = "<group>"; };
 		5BA2B4612D7EE28C00F045D7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				5BA2B4822D808FB700F045D7 /* DrinkTableViewCell.swift */,
+				5B135A7D2D83717200FD48C0 /* DrinksTableManager.swift */,
 			);
 			path = CocktailTable;
 			sourceTree = "<group>";
@@ -216,6 +219,7 @@
 				5BA2B4892D80A72200F045D7 /* FavoriteDrinkModel.swift in Sources */,
 				5BA2B4832D808FB700F045D7 /* DrinkTableViewCell.swift in Sources */,
 				5BA2B4762D7EE2BB00F045D7 /* DrinkModel.swift in Sources */,
+				5B135A7E2D83717200FD48C0 /* DrinksTableManager.swift in Sources */,
 				5BA2B4782D7EE2C700F045D7 /* ApiManager.swift in Sources */,
 				5BA2B4602D7EE28C00F045D7 /* Solvro_MobileApp.swift in Sources */,
 				5BA2B47F2D7F2C5D00F045D7 /* DrinksViewModel.swift in Sources */,

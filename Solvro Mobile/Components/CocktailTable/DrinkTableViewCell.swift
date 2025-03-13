@@ -50,6 +50,9 @@ class DrinkTableViewCell: UITableViewCell {
     // Closure, która zostanie wywołana, gdy użytkownik kliknie przycisk favorite
     var favoriteButtonAction: (() -> Void)?
     
+    // Przechowywanie zadania pobierania obrazu
+    var imageDownloadTask: URLSessionDataTask?
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
@@ -83,12 +86,12 @@ class DrinkTableViewCell: UITableViewCell {
         
         // Dodajemy favoriteButton do contentView
         contentView.addSubview(favoriteButton)
-        // Ustawiamy constraints przycisku (umieszczamy go w prawym górnym rogu, wyśrodkowany pionowo)
+        // Ustawiamy constraints przycisku (umieszczamy go w prawym górnym rogu)
         NSLayoutConstraint.activate([
-//            favoriteButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             favoriteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             favoriteButton.widthAnchor.constraint(equalToConstant: 40),
-            favoriteButton.heightAnchor.constraint(equalToConstant: 40)
+            favoriteButton.heightAnchor.constraint(equalToConstant: 40),
+            favoriteButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
         
         // Ustawiamy target dla przycisku
@@ -109,6 +112,10 @@ class DrinkTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        // Anulujemy poprzednie zadanie pobierania obrazu, jeśli jeszcze trwa
+        imageDownloadTask?.cancel()
+        imageDownloadTask = nil
+        
         drinkImageView.image = nil
         drinkNameLabel.text = nil
         // Zerujemy closure (aby nie utrzymywać starych referencji)
@@ -117,24 +124,29 @@ class DrinkTableViewCell: UITableViewCell {
 }
 
 extension DrinkTableViewCell {
-    // New method to configure the cell with a Drink
+    // Nowa metoda do konfiguracji komórki na podstawie modelu Drink
     func configure(with drink: Drink) {
-        // Set the drink name label
+        // Ustawiamy nazwę drinka
         drinkNameLabel.text = drink.name
         
-        // Reset the image view
+        // Resetujemy obraz – przygotowujemy placeholder (tutaj nil, ale możesz ustawić obraz zastępczy)
         drinkImageView.image = nil
         
-        // Download the image asynchronously
+        // Jeśli mamy URL obrazu, pobieramy go asynchronicznie
         if let url = URL(string: drink.imageUrl) {
-            URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-                if let data = data, let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        // Make sure the cell hasn't been reused for another drink
-                        self?.drinkImageView.image = image
-                    }
+            // Anulujemy poprzednie zadanie, jeśli istnieje
+            imageDownloadTask?.cancel()
+            imageDownloadTask = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+                guard let self = self,
+                      let data = data,
+                      error == nil,
+                      let image = UIImage(data: data) else { return }
+                DispatchQueue.main.async {
+                    // Upewniamy się, że komórka nadal reprezentuje ten sam drink
+                    self.drinkImageView.image = image
                 }
-            }.resume()
+            }
+            imageDownloadTask?.resume()
         }
     }
 }

@@ -45,6 +45,17 @@ class DrinksViewController: UIViewController {
             }
         }
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        tableView.frame = view.bounds
+        tableView.contentInset = UIEdgeInsets(
+            top: 0,
+            left: 0,
+            bottom: view.safeAreaInsets.bottom + 20,
+            right: 0
+        )
+    }
 }
 
 // MARK: - SwiftUI Preview

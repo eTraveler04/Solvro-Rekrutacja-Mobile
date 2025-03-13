@@ -41,13 +41,18 @@ class DrinksTableManager: NSObject, UITableViewDataSource, UITableViewDelegate, 
         let contentHeight = scrollView.contentSize.height
         let height = scrollView.frame.size.height
         
-        // Jeżeli użytkownik zbliża się do końca listy i nie trwa ładowanie, pobierz kolejną stronę
+        // Sprawdzamy, czy jesteśmy blisko końca listy
         if offsetY > contentHeight - height - 100, !isLoading {
+            // Sprawdzamy, czy lastPage jest dostępny i czy nie osiągnęliśmy końca
+            if let lastPage = viewModel.lastPage, currentPage >= lastPage {
+                return
+            }
             isLoading = true
             currentPage += 1
             onLoadMore?()
         }
     }
+
     
     // Metoda wywoływana po zakończeniu ładowania danych
     func loadingCompleted() {

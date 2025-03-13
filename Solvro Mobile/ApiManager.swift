@@ -30,11 +30,7 @@ struct CocktailListResponse: Codable {
 class APIManager {
     static let shared = APIManager()
     
-    /// Pobiera listę drinków dla podanej strony.
-    /// - Parameters:
-    ///   - page: Numer strony, domyślnie 1.
-    ///   - completion: Blok zwrotny z wynikiem (sukces lub błąd).
-    func fetchDrinks(page: Int = 1, completion: @escaping (Result<[Drink], Error>) -> Void) {
+    func fetchDrinks(page: Int = 1, completion: @escaping (Result<CocktailListResponse, Error>) -> Void) {
         let urlString = "https://cocktails.solvro.pl/api/v1/cocktails/?page=\(page)"
         guard let url = URL(string: urlString) else {
             completion(.failure(NSError(domain: "Invalid URL", code: 0)))
@@ -54,8 +50,7 @@ class APIManager {
             
             do {
                 let cocktailResponse = try JSONDecoder().decode(CocktailListResponse.self, from: data)
-                // Przekazujemy tylko tablicę drinków
-                completion(.success(cocktailResponse.data))
+                completion(.success(cocktailResponse))
             } catch {
                 completion(.failure(error))
             }

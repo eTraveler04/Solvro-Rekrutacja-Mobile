@@ -4,10 +4,13 @@ import SwiftUI
 struct FavoritesListView: View {
     @ObservedObject var favoritesManager = FavoritesManager.shared
 
+    // Local copy to display. This lets the list remain unchanged until deletion is confirmed.
+    @State private var displayDrinks: [Drink] = []
+    
     var body: some View {
         NavigationView {
             List {
-                ForEach(favoritesManager.favoriteDrinks) { drink in
+                ForEach(displayDrinks) { drink in
                     HStack(spacing: 16) {
                         if let url = URL(string: drink.imageUrl) {
                             AsyncImage(url: url) { image in
@@ -52,21 +55,22 @@ struct FavoritesListView: View {
                     }
                     .padding(.vertical, 4)
                 }
-                // Tu dopiero przypisujemy obsługę usuwania wierszy
-//                .onDelete(perform: deleteDrink)
+                .onDelete(perform: deleteDrink)
             }
             .navigationTitle("Ulubione Drinki")
+            .onAppear {
+                displayDrinks = favoritesManager.favoriteDrinks
+            }
         }
     }
     
     private func deleteDrink(at offsets: IndexSet) {
-        offsets.forEach { index in
-            let drink = favoritesManager.favoriteDrinks[index]
-            favoritesManager.removeFavorite(drink: drink)
+            offsets.forEach { index in
+                let drink = displayDrinks[index]
+                favoritesManager.removeFavorite(drink: drink)
+            }
         }
-    }
 }
-
 
 struct FavoritesListView_Previews: PreviewProvider {
     static var previews: some View {

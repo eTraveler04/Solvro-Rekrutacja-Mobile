@@ -22,7 +22,7 @@ struct Solvro_MobileApp: App {
                     .tabItem {
                         Label("", systemImage: "wineglass")
                     }
-                ContentView()
+                FavoritesListView()
                     .tabItem {
                         Label("", systemImage: "star")
                     }

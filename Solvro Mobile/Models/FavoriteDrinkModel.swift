@@ -6,9 +6,10 @@
 //
 
 import Foundation
+import Combine
 
 // Singleton odpowiedzialny za zarządzanie ulubionymi drinkami
-class FavoritesManager {
+class FavoritesManager: ObservableObject {
     // Jedyna instancja obiektu dostępna globalnie
     static let shared = FavoritesManager()
     
@@ -16,7 +17,7 @@ class FavoritesManager {
     private init() { }
     
     // Tablica przechowująca ulubione drinki
-    var favoriteDrinks: [Drink] = []
+    @Published var favoriteDrinks: [Drink] = []
     
     // Metoda dodająca drinka do ulubionych (jeśli wcześniej nie został dodany)
     func addFavorite(drink: Drink) {

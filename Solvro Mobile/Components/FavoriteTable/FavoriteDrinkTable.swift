@@ -6,6 +6,8 @@ struct FavoritesListView: View {
 
     // Local copy to display. This lets the list remain unchanged until deletion is confirmed.
     @State private var displayDrinks: [Drink] = []
+    // State for the selected drink to show details.
+    @State private var selectedDrink: Drink? = nil
     
     var body: some View {
         NavigationView {
@@ -53,6 +55,11 @@ struct FavoritesListView: View {
                         }
                         .buttonStyle(BorderlessButtonStyle())
                     }
+                    // Make the whole row tappable for the popup.
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        selectedDrink = drink
+                    }
                     .padding(.vertical, 4)
                 }
                 .onDelete(perform: deleteDrink)
@@ -60,6 +67,10 @@ struct FavoritesListView: View {
             .navigationTitle("Ulubione Drinki")
             .onAppear {
                 displayDrinks = favoritesManager.favoriteDrinks
+            }
+            // Present the drink details popup when a drink is selected.
+            .sheet(item: $selectedDrink) { drink in
+                DrinkDetailsViewControllerRepresentable(drink: drink)
             }
         }
     }

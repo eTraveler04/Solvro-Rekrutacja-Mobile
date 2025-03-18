@@ -26,6 +26,7 @@ struct CocktailListResponse: Codable {
     let data: [Drink]
 }
 
+
 // APIManager - warstwa Service
 class APIManager {
     static let shared = APIManager()
@@ -56,4 +57,31 @@ class APIManager {
             }
         }.resume()
     }
+    
+    func fetchIngredients(drinkId: Int, completion: @escaping (Result<[Ingredient], Error>) -> Void) {
+        let urlString = "https://cocktails.solvro.pl/api/v1/cocktails/\(drinkId)"
+        guard let url = URL(string: urlString) else {
+            completion(.failure(NSError(domain: "Invalid URL", code: 0)))
+            return
+        }
+
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            guard let data = data else {
+                completion(.failure(NSError(domain: "No data", code: 0)))
+                return
+            }
+
+            do {
+                let wrapper = try JSONDecoder().decode(IngredientResponse.self, from: data)
+                completion(.success(wrapper.ingredients))
+            } catch {
+                completion(.failure(error))
+            }
+        }.resume()
+    }
+
 }

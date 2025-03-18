@@ -11,6 +11,8 @@
 		5B6B444C2D89F153006B50B2 /* FavoriteDrinkTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6B444B2D89F153006B50B2 /* FavoriteDrinkTable.swift */; };
 		5B6B444F2D89F3F6006B50B2 /* ThemeSwutcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6B444E2D89F3F6006B50B2 /* ThemeSwutcherView.swift */; };
 		5B6B44512D8A0AD2006B50B2 /* DrinkDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6B44502D8A0AD2006B50B2 /* DrinkDetailsViewController.swift */; };
+		5B6B445B2D8A14A0006B50B2 /* DrinkDetailsViewControllerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6B445A2D8A14A0006B50B2 /* DrinkDetailsViewControllerRepresentable.swift */; };
+		5B6B445D2D8A1AA9006B50B2 /* IngredientModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6B445C2D8A1AA9006B50B2 /* IngredientModel.swift */; };
 		5BA2B4602D7EE28C00F045D7 /* Solvro_MobileApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA2B45F2D7EE28C00F045D7 /* Solvro_MobileApp.swift */; };
 		5BA2B4622D7EE28C00F045D7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA2B4612D7EE28C00F045D7 /* ContentView.swift */; };
 		5BA2B4642D7EE28D00F045D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BA2B4632D7EE28D00F045D7 /* Assets.xcassets */; };
@@ -30,6 +32,8 @@
 		5B6B444B2D89F153006B50B2 /* FavoriteDrinkTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteDrinkTable.swift; sourceTree = "<group>"; };
 		5B6B444E2D89F3F6006B50B2 /* ThemeSwutcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSwutcherView.swift; sourceTree = "<group>"; };
 		5B6B44502D8A0AD2006B50B2 /* DrinkDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinkDetailsViewController.swift; sourceTree = "<group>"; };
+		5B6B445A2D8A14A0006B50B2 /* DrinkDetailsViewControllerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinkDetailsViewControllerRepresentable.swift; sourceTree = "<group>"; };
+		5B6B445C2D8A1AA9006B50B2 /* IngredientModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientModel.swift; sourceTree = "<group>"; };
 		5BA2B45C2D7EE28C00F045D7 /* Solvro Mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Solvro Mobile.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BA2B45F2D7EE28C00F045D7 /* Solvro_MobileApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solvro_MobileApp.swift; sourceTree = "<group>"; };
 		5BA2B4612D7EE28C00F045D7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -67,10 +71,19 @@
 		5B6B444D2D89F3E7006B50B2 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				5B6B44592D8A1493006B50B2 /* DrinkDetails */,
 				5B6B444E2D89F3F6006B50B2 /* ThemeSwutcherView.swift */,
-				5B6B44502D8A0AD2006B50B2 /* DrinkDetailsViewController.swift */,
 			);
 			path = Other;
+			sourceTree = "<group>";
+		};
+		5B6B44592D8A1493006B50B2 /* DrinkDetails */ = {
+			isa = PBXGroup;
+			children = (
+				5B6B44502D8A0AD2006B50B2 /* DrinkDetailsViewController.swift */,
+				5B6B445A2D8A14A0006B50B2 /* DrinkDetailsViewControllerRepresentable.swift */,
+			);
+			path = DrinkDetails;
 			sourceTree = "<group>";
 		};
 		5BA2B4532D7EE28C00F045D7 = {
@@ -120,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				5BA2B4752D7EE2BB00F045D7 /* DrinkModel.swift */,
+				5B6B445C2D8A1AA9006B50B2 /* IngredientModel.swift */,
 				5BA2B4882D80A72100F045D7 /* FavoriteDrinkModel.swift */,
 			);
 			path = Models;
@@ -242,10 +256,12 @@
 				5BA2B4692D7EE28D00F045D7 /* Persistence.swift in Sources */,
 				5BA2B4622D7EE28C00F045D7 /* ContentView.swift in Sources */,
 				5BA2B47A2D7EE38B00F045D7 /* DrinkViewController.swift in Sources */,
+				5B6B445B2D8A14A0006B50B2 /* DrinkDetailsViewControllerRepresentable.swift in Sources */,
 				5BA2B46C2D7EE28D00F045D7 /* Solvro_Mobile.xcdatamodeld in Sources */,
 				5BA2B4892D80A72200F045D7 /* FavoriteDrinkModel.swift in Sources */,
 				5BA2B4832D808FB700F045D7 /* DrinkTableViewCell.swift in Sources */,
 				5BA2B4762D7EE2BB00F045D7 /* DrinkModel.swift in Sources */,
+				5B6B445D2D8A1AA9006B50B2 /* IngredientModel.swift in Sources */,
 				5B135A7E2D83717200FD48C0 /* DrinksTableManager.swift in Sources */,
 				5BA2B4782D7EE2C700F045D7 /* ApiManager.swift in Sources */,
 				5BA2B4602D7EE28C00F045D7 /* Solvro_MobileApp.swift in Sources */,

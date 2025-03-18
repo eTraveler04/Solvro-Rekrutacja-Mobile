@@ -26,6 +26,14 @@ struct CocktailListResponse: Codable {
     let data: [Drink]
 }
 
+struct IngredientResponse: Codable {
+    let data: IngredientData
+}
+
+struct IngredientData: Codable {
+    let ingredients: [Ingredient]
+}
+
 
 // APIManager - warstwa Service
 class APIManager {
@@ -77,11 +85,22 @@ class APIManager {
 
             do {
                 let wrapper = try JSONDecoder().decode(IngredientResponse.self, from: data)
-                completion(.success(wrapper.ingredients))
+                completion(.success(wrapper.data.ingredients))
             } catch {
                 completion(.failure(error))
             }
         }.resume()
     }
 
+}
+
+extension APIManager {
+    func fetchIngredients(for drink: Drink, completion: @escaping (Result<[Ingredient], Error>) -> Void) {
+        if let ingredients = drink.ingredients, !ingredients.isEmpty {
+            completion(.success(ingredients))
+            return
+        }
+        
+        fetchIngredients(drinkId: drink.id, completion: completion)
+    }
 }

@@ -14,12 +14,11 @@ struct DrinkDetailsViewControllerRepresentable: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
         // Create the details view controller.
         let detailsVC = DrinkDetailsViewController(drink: drink)
-        
-        // Configure the right bar button item if not already set in DrinkDetailsViewController.
-        // Assumes that DrinkDetailsViewController has a @objc method named closeTapped that dismisses it.
-        detailsVC.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: detailsVC, action: #selector(detailsVC.closeTapped))
-        
-        // Embed it in a UINavigationController so the navigation bar (with Done button) appears.
+        // Configure the Done button if not already set.
+        detailsVC.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done,
+                                                                   target: detailsVC,
+                                                                   action: #selector(detailsVC.closeTapped))
+        // Wrap the details view controller in a UINavigationController so that the navigation bar (and dark mode) is handled automatically.
         let navController = UINavigationController(rootViewController: detailsVC)
         return navController
     }

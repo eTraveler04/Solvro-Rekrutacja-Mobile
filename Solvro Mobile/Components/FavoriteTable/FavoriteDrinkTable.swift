@@ -88,71 +88,56 @@ struct FavoritesListView_Previews: PreviewProvider {
         // Przykładowe dane dla podglądu
         FavoritesManager.shared.favoriteDrinks = [
             Drink(
-                id: 1,
-                name: "Mojito",
+                id: 10,
+                name: "Long Island Iced Tea",
                 category: "Cocktail",
                 glass: "Highball glass",
-                instructions: "Muddle mint leaves with sugar and lime juice.",
-                imageUrl: "https://www.thecocktaildb.com/images/media/drink/3z6xdi1589574603.jpg",
+                instructions: "Mix vodka, tequila, rum, gin, triple sec, lemon juice, and simple syrup over ice. Top with cola and garnish with a lemon slice.",
+                imageUrl: "https://example.com/long-island-iced-tea.jpg",
                 alcoholic: true,
+                ingredients: [
+                    Ingredient(
+                        id: 1,
+                        name: "Vodka",
+                        description: "A clear distilled alcoholic beverage made from fermented grains or potatoes.",
+                        alcohol: true,
+                        type: "Vodka",
+                        percentage: 40,
+                        imageUrl: "https://example.com/vodka.png",
+                        createdAt: nil,
+                        updatedAt: nil,
+                        measure: "1/2 oz"
+                    ),
+                    Ingredient(
+                        id: 2,
+                        name: "Tequila",
+                        description: "A distilled beverage made from the blue agave plant, typically 40% ABV.",
+                        alcohol: true,
+                        type: "Spirit",
+                        percentage: 40,
+                        imageUrl: "https://example.com/tequila.png",
+                        createdAt: nil,
+                        updatedAt: nil,
+                        measure: "1/2 oz"
+                    )
+                ],
                 createdAt: nil,
                 updatedAt: nil
             ),
             Drink(
-                id: 2,
-                name: "Martini",
+                id: 11,
+                name: "Cosmopolitan",
                 category: "Cocktail",
                 glass: "Cocktail glass",
-                instructions: "Stir ingredients with ice, strain into a chilled glass.",
-                imageUrl: "https://www.thecocktaildb.com/images/media/drink/3z6xdi1589574603.jpg",
+                instructions: "Add cranberry juice, triple sec, vodka, and a squeeze of lime juice to a shaker with ice. Shake well and strain into a chilled cocktail glass.",
+                imageUrl: "https://example.com/cosmopolitan.jpg",
                 alcoholic: true,
-                createdAt: nil,
-                updatedAt: nil
-            ),
-            Drink(
-                id: 3,
-                name: "Martini",
-                category: "Cocktail",
-                glass: "Cocktail glass",
-                instructions: "Stir ingredients with ice, strain into a chilled glass.",
-                imageUrl: "https://www.thecocktaildb.com/images/media/drink/3z6xdi1589574603.jpg",
-                alcoholic: true,
-                createdAt: nil,
-                updatedAt: nil
-            ),
-            Drink(
-                id: 4,
-                name: "Martini",
-                category: "Cocktail",
-                glass: "Cocktail glass",
-                instructions: "Stir ingredients with ice, strain into a chilled glass.",
-                imageUrl: "https://www.thecocktaildb.com/images/media/drink/3z6xdi1589574603.jpg",
-                alcoholic: true,
-                createdAt: nil,
-                updatedAt: nil
-            ),
-            Drink(
-                id: 5,
-                name: "Martini",
-                category: "Cocktail",
-                glass: "Cocktail glass",
-                instructions: "Stir ingredients with ice, strain into a chilled glass.",
-                imageUrl: "https://www.thecocktaildb.com/images/media/drink/3z6xdi1589574603.jpg",
-                alcoholic: true,
-                createdAt: nil,
-                updatedAt: nil
-            ),
-            Drink(
-                id: 6,
-                name: "Martini",
-                category: "Cocktail",
-                glass: "Cocktail glass",
-                instructions: "Stir ingredients with ice, strain into a chilled glass.",
-                imageUrl: "https://www.thecocktaildb.com/images/media/drink/3z6xdi1589574603.jpg",
-                alcoholic: true,
+                ingredients: nil, // brak składników, bo to pole jest opcjonalne
                 createdAt: nil,
                 updatedAt: nil
             )
+
+
         ]
         return FavoritesListView()
     }

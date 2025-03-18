@@ -16,6 +16,7 @@ struct Drink: Codable, Identifiable {
     let instructions: String
     let imageUrl: String
     let alcoholic: Bool
+    let ingredients: [Ingredient]?
     let createdAt: String?
     let updatedAt: String?
 }

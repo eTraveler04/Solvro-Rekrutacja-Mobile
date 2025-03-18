@@ -22,6 +22,6 @@ struct Ingredient: Codable, Identifiable {
 }
 
 // Odpowiedź API
-struct IngredientResponse: Codable {
-    let ingredients: [Ingredient]
-}
+//struct IngredientResponse: Codable {
+//    let ingredients: [Ingredient]
+//}

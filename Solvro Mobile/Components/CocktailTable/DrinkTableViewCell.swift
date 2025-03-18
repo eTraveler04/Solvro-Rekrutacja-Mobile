@@ -21,7 +21,8 @@ class DrinkTableViewCell: UITableViewCell {
     // ImageView, który wyświetli obraz
     let drinkImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit   // skalowanie obrazu tak, aby był widoczny cały
+//        imageView.contentMode = .scaleAspectFit   // skalowanie obrazu tak, aby był widoczny cały
+        imageView.contentMode = .scaleAspectFill  // skalowanie obrazu tak, aby był widoczny cały
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -46,6 +47,9 @@ class DrinkTableViewCell: UITableViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    
+    // Przechowywanie aktualnie wyświetlanego drinka
+    private var currentDrink: Drink?
     
     // Closure, która zostanie wywołana, gdy użytkownik kliknie przycisk favorite
     var favoriteButtonAction: (() -> Void)?
@@ -75,7 +79,7 @@ class DrinkTableViewCell: UITableViewCell {
             verticalStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             verticalStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
             verticalStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            verticalStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -60)
+            verticalStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
         ])
         
         // Ustalenie rozmiaru obrazu – tutaj ustawiamy wysokość, którą możesz zmienić wedle potrzeb
@@ -86,22 +90,38 @@ class DrinkTableViewCell: UITableViewCell {
         
         // Dodajemy favoriteButton do contentView
         contentView.addSubview(favoriteButton)
-        // Ustawiamy constraints przycisku (umieszczamy go w prawym górnym rogu)
+        
+        // Center the button vertically with the drinkImageView
         NSLayoutConstraint.activate([
-            favoriteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+//            favoriteButton.centerYAnchor.constraint(equalTo: drinkImageView.topAnchor),
+//            favoriteButton.centerXAnchor.constraint(equalTo: drinkImageView.rightAnchor),
+//            favoriteButton.widthAnchor.constraint(equalToConstant: 40),
+//            favoriteButton.heightAnchor.constraint(equalToConstant: 40)
+            favoriteButton.topAnchor.constraint(equalTo: drinkImageView.topAnchor),
+            favoriteButton.trailingAnchor.constraint(equalTo: drinkImageView.trailingAnchor),
             favoriteButton.widthAnchor.constraint(equalToConstant: 40),
-            favoriteButton.heightAnchor.constraint(equalToConstant: 40),
-            favoriteButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            favoriteButton.heightAnchor.constraint(equalToConstant: 40)
+
         ])
         
         // Ustawiamy target dla przycisku
         favoriteButton.addTarget(self, action: #selector(favoriteButtonTapped), for: .touchUpInside)
     }
     
-    // Metoda wywoływana, gdy przycisk zostanie naciśnięty
-    @objc private func favoriteButtonTapped() {
-        favoriteButtonAction?()
-    }
+    // Metoda przy kliknięciu przycisku
+     @objc private func favoriteButtonTapped() {
+         guard let drink = currentDrink else { return }
+         
+         // Jeśli drink jest już ulubiony, usuwamy go, w przeciwnym przypadku dodajemy
+         if FavoritesManager.shared.isFavorite(drink: drink) {
+             FavoritesManager.shared.removeFavorite(drink: drink)
+         } else {
+             FavoritesManager.shared.addFavorite(drink: drink)
+         }
+         
+         // Aktualizujemy ikonę przycisku na podstawie nowego stanu
+         updateFavoriteButton(isFavorite: FavoritesManager.shared.isFavorite(drink: drink))
+     }
     
     // Metoda aktualizująca ikonę przycisku w zależności od statusu ulubionego drinka
     func updateFavoriteButton(isFavorite: Bool) {
@@ -126,15 +146,14 @@ class DrinkTableViewCell: UITableViewCell {
 extension DrinkTableViewCell {
     // Nowa metoda do konfiguracji komórki na podstawie modelu Drink
     func configure(with drink: Drink) {
-        // Ustawiamy nazwę drinka
+        currentDrink = drink // dodaj to przypisanie
         drinkNameLabel.text = drink.name
-        
-        // Resetujemy obraz – przygotowujemy placeholder (tutaj nil, ale możesz ustawić obraz zastępczy)
         drinkImageView.image = nil
+        let drinkId = drink.id
+        let isFavorite = FavoritesManager.shared.favoriteDrinks.contains { $0.id == drinkId }
+        updateFavoriteButton(isFavorite: isFavorite)
         
-        // Jeśli mamy URL obrazu, pobieramy go asynchronicznie
         if let url = URL(string: drink.imageUrl) {
-            // Anulujemy poprzednie zadanie, jeśli istnieje
             imageDownloadTask?.cancel()
             imageDownloadTask = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
                 guard let self = self,
@@ -142,11 +161,11 @@ extension DrinkTableViewCell {
                       error == nil,
                       let image = UIImage(data: data) else { return }
                 DispatchQueue.main.async {
-                    // Upewniamy się, że komórka nadal reprezentuje ten sam drink
                     self.drinkImageView.image = image
                 }
             }
             imageDownloadTask?.resume()
         }
     }
+
 }

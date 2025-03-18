@@ -24,7 +24,7 @@ struct Solvro_MobileApp: App {
                     }
                 ContentView()
                     .tabItem {
-                        Label("", systemImage: "person")
+                        Label("", systemImage: "star")
                     }
             }
             .environment(\.managedObjectContext, persistenceController.container.viewContext)

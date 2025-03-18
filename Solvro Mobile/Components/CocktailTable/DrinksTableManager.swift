@@ -16,6 +16,9 @@ class DrinksTableManager: NSObject, UITableViewDataSource, UITableViewDelegate, 
     /// Closure wywoływana przy konieczności załadowania kolejnej strony
     var onLoadMore: (() -> Void)?
     
+    // New closure to handle row selection
+    var didSelectDrink: ((Drink) -> Void)?
+    
     init(viewModel: DrinksViewModel, onLoadMore: (() -> Void)? = nil) {
         self.viewModel = viewModel
         self.onLoadMore = onLoadMore
@@ -32,6 +35,14 @@ class DrinksTableManager: NSObject, UITableViewDataSource, UITableViewDelegate, 
         let drink = viewModel.drinks[indexPath.row]
         cell.configure(with: drink)
         return cell
+    }
+    
+    // MARK: - UITableViewDelegate
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let drink = viewModel.drinks[indexPath.row]
+        didSelectDrink?(drink)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     // MARK: - UIScrollViewDelegate (Infinite Scrolling)

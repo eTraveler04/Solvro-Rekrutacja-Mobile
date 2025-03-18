@@ -10,6 +10,7 @@
 		5B135A7E2D83717200FD48C0 /* DrinksTableManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B135A7D2D83717200FD48C0 /* DrinksTableManager.swift */; };
 		5B6B444C2D89F153006B50B2 /* FavoriteDrinkTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6B444B2D89F153006B50B2 /* FavoriteDrinkTable.swift */; };
 		5B6B444F2D89F3F6006B50B2 /* ThemeSwutcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6B444E2D89F3F6006B50B2 /* ThemeSwutcherView.swift */; };
+		5B6B44512D8A0AD2006B50B2 /* DrinkDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6B44502D8A0AD2006B50B2 /* DrinkDetailsViewController.swift */; };
 		5BA2B4602D7EE28C00F045D7 /* Solvro_MobileApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA2B45F2D7EE28C00F045D7 /* Solvro_MobileApp.swift */; };
 		5BA2B4622D7EE28C00F045D7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA2B4612D7EE28C00F045D7 /* ContentView.swift */; };
 		5BA2B4642D7EE28D00F045D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BA2B4632D7EE28D00F045D7 /* Assets.xcassets */; };
@@ -28,6 +29,7 @@
 		5B135A7D2D83717200FD48C0 /* DrinksTableManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinksTableManager.swift; sourceTree = "<group>"; };
 		5B6B444B2D89F153006B50B2 /* FavoriteDrinkTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteDrinkTable.swift; sourceTree = "<group>"; };
 		5B6B444E2D89F3F6006B50B2 /* ThemeSwutcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSwutcherView.swift; sourceTree = "<group>"; };
+		5B6B44502D8A0AD2006B50B2 /* DrinkDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinkDetailsViewController.swift; sourceTree = "<group>"; };
 		5BA2B45C2D7EE28C00F045D7 /* Solvro Mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Solvro Mobile.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BA2B45F2D7EE28C00F045D7 /* Solvro_MobileApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solvro_MobileApp.swift; sourceTree = "<group>"; };
 		5BA2B4612D7EE28C00F045D7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -66,6 +68,7 @@
 			isa = PBXGroup;
 			children = (
 				5B6B444E2D89F3F6006B50B2 /* ThemeSwutcherView.swift */,
+				5B6B44502D8A0AD2006B50B2 /* DrinkDetailsViewController.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -234,6 +237,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B6B44512D8A0AD2006B50B2 /* DrinkDetailsViewController.swift in Sources */,
 				5B6B444F2D89F3F6006B50B2 /* ThemeSwutcherView.swift in Sources */,
 				5BA2B4692D7EE28D00F045D7 /* Persistence.swift in Sources */,
 				5BA2B4622D7EE28C00F045D7 /* ContentView.swift in Sources */,

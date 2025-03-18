@@ -17,6 +17,15 @@ class DrinksViewController: UIViewController {
         setupTableManager()
         bindViewModel()
         
+        // Set the closure so that tapping a cell opens the details popup.
+        tableManager.didSelectDrink = { [weak self] drink in
+            guard let self = self else { return }
+            let detailsVC = DrinkDetailsViewController(drink: drink)
+            let nav = UINavigationController(rootViewController: detailsVC)
+            nav.modalPresentationStyle = .formSheet
+            self.present(nav, animated: true, completion: nil)
+        }
+        
         // Inicjalne ładowanie danych - ustawiamy stan ładowania i pobieramy pierwszą stronę
         tableManager.isLoading = true
         viewModel.fetchDrinks(page: tableManager.currentPage)

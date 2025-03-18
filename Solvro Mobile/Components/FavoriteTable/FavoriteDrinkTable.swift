@@ -2,8 +2,6 @@ import Foundation
 import SwiftUI
 
 struct FavoritesListView: View {
-    // Aby widok automatycznie reagował na zmiany listy,
-    // warto aby FavoritesManager implementował ObservableObject i favoriteDrinks było @Published.
     @ObservedObject var favoritesManager = FavoritesManager.shared
 
     var body: some View {
@@ -11,7 +9,6 @@ struct FavoritesListView: View {
             List {
                 ForEach(favoritesManager.favoriteDrinks) { drink in
                     HStack(spacing: 16) {
-                        // Ładowanie obrazka drinka z URL – dostępne w iOS 15+
                         if let url = URL(string: drink.imageUrl) {
                             AsyncImage(url: url) { image in
                                 image
@@ -41,7 +38,6 @@ struct FavoritesListView: View {
                         
                         Spacer()
                         
-                        // Przycisk z ikoną gwiazdki, umożliwiający togglowanie statusu ulubionego drinka
                         Button(action: {
                             if favoritesManager.isFavorite(drink: drink) {
                                 favoritesManager.removeFavorite(drink: drink)
@@ -52,16 +48,17 @@ struct FavoritesListView: View {
                             Image(systemName: favoritesManager.isFavorite(drink: drink) ? "star.fill" : "star")
                                 .foregroundColor(.yellow)
                         }
+                        .buttonStyle(BorderlessButtonStyle())
                     }
                     .padding(.vertical, 4)
                 }
-                .onDelete(perform: deleteDrink)
+                // Tu dopiero przypisujemy obsługę usuwania wierszy
+//                .onDelete(perform: deleteDrink)
             }
             .navigationTitle("Ulubione Drinki")
         }
     }
     
-    // Funkcja obsługująca usuwanie drinka z listy
     private func deleteDrink(at offsets: IndexSet) {
         offsets.forEach { index in
             let drink = favoritesManager.favoriteDrinks[index]
@@ -69,6 +66,7 @@ struct FavoritesListView: View {
         }
     }
 }
+
 
 struct FavoritesListView_Previews: PreviewProvider {
     static var previews: some View {
@@ -91,7 +89,51 @@ struct FavoritesListView_Previews: PreviewProvider {
                 category: "Cocktail",
                 glass: "Cocktail glass",
                 instructions: "Stir ingredients with ice, strain into a chilled glass.",
-                imageUrl: "https://www.thecocktaildb.com/images/media/drink/71t9181504353095.jpg",
+                imageUrl: "https://www.thecocktaildb.com/images/media/drink/3z6xdi1589574603.jpg",
+                alcoholic: true,
+                createdAt: nil,
+                updatedAt: nil
+            ),
+            Drink(
+                id: 3,
+                name: "Martini",
+                category: "Cocktail",
+                glass: "Cocktail glass",
+                instructions: "Stir ingredients with ice, strain into a chilled glass.",
+                imageUrl: "https://www.thecocktaildb.com/images/media/drink/3z6xdi1589574603.jpg",
+                alcoholic: true,
+                createdAt: nil,
+                updatedAt: nil
+            ),
+            Drink(
+                id: 4,
+                name: "Martini",
+                category: "Cocktail",
+                glass: "Cocktail glass",
+                instructions: "Stir ingredients with ice, strain into a chilled glass.",
+                imageUrl: "https://www.thecocktaildb.com/images/media/drink/3z6xdi1589574603.jpg",
+                alcoholic: true,
+                createdAt: nil,
+                updatedAt: nil
+            ),
+            Drink(
+                id: 5,
+                name: "Martini",
+                category: "Cocktail",
+                glass: "Cocktail glass",
+                instructions: "Stir ingredients with ice, strain into a chilled glass.",
+                imageUrl: "https://www.thecocktaildb.com/images/media/drink/3z6xdi1589574603.jpg",
+                alcoholic: true,
+                createdAt: nil,
+                updatedAt: nil
+            ),
+            Drink(
+                id: 6,
+                name: "Martini",
+                category: "Cocktail",
+                glass: "Cocktail glass",
+                instructions: "Stir ingredients with ice, strain into a chilled glass.",
+                imageUrl: "https://www.thecocktaildb.com/images/media/drink/3z6xdi1589574603.jpg",
                 alcoholic: true,
                 createdAt: nil,
                 updatedAt: nil

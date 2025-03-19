@@ -11,7 +11,7 @@ import SwiftUI
 struct Solvro_MobileApp: App {
     @AppStorage("isDarkMode") var isDarkMode: Bool = false
     let persistenceController = PersistenceController.shared
-    
+    @ObservedObject var favoritesManager = FavoritesManager.shared
     init() {
         // Configure UITabBar appearance to use your custom asset color.
         let tabBarAppearance = UITabBarAppearance()
@@ -36,7 +36,7 @@ struct Solvro_MobileApp: App {
                     .ignoresSafeArea()
                 
                 TabView {
-                    Text("Hello, World!")
+                    FavDrinkCardView()
                         .tabItem {
                             Label("", systemImage: "house")
                         }

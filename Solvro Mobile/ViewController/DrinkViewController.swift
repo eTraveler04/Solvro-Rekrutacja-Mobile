@@ -13,6 +13,7 @@ class DrinksViewController: UIViewController {
         title = "Koktajle"
         view.backgroundColor = .white
         
+        
         setupTableView()
         setupTableManager()
         bindViewModel()

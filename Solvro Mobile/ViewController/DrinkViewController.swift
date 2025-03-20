@@ -76,6 +76,22 @@ class DrinksViewController: UIViewController {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Wyszukaj koktajl"
+        
+        // Customize the search bar's text field
+        if let textfield = searchController.searchBar.value(forKey: "searchField") as? UITextField {
+            // Change placeholder color (e.g., light gray)
+            textfield.attributedPlaceholder = NSAttributedString(string: searchController.searchBar.placeholder ?? "", attributes: [
+                .foregroundColor: UIColor.lightGray
+            ])
+            // Change the text color if desired
+            textfield.textColor = UIColor.white
+            
+            // Change the color of the loupe icon (left view)
+            if let leftIconView = textfield.leftView as? UIImageView {
+                leftIconView.tintColor = UIColor.white
+            }
+        }
+        
         navigationItem.searchController = searchController
         definesPresentationContext = true
     }
@@ -97,10 +113,27 @@ class DrinksViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tableView.reloadData()
-        searchTableView.reloadData()
+        
+        guard let navBar = navigationController?.navigationBar else { return }
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground() // Ustawia nieprzezroczyste tło
+        
+        if let bgImage = UIImage(named: "CardBackground") {
+            appearance.backgroundImage = bgImage
+        } else {
+            appearance.backgroundColor = UIColor.systemBackground // fallback
+        }
+        
+        // Ustaw tytuł na biały i dodaj przesunięcie w pionie (baselineOffset)
+        appearance.titleTextAttributes = [
+            .foregroundColor: UIColor.white,
+            .font: UIFont(name: "Noteworthy-Bold", size: 32) ?? UIFont.boldSystemFont(ofSize: 32),
+            .baselineOffset: -10  // Dodaje odstęp w pionie – wartość możesz dostosować
+        ]
+        
+        navBar.standardAppearance = appearance
+        navBar.scrollEdgeAppearance = appearance
     }
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
@@ -120,9 +153,7 @@ extension DrinksViewController: UISearchResultsUpdating {
             tableView.isHidden = false
             view.bringSubviewToFront(tableView)
             searchTableManager.isSearching = false
-            
-            // Odświeżamy dane głównej listy, aby zmiany były widoczne
-                       viewModel.onDataUpdated?()
+            viewModel.onDataUpdated?()
         } else {
             // Gdy szukamy, pokazujemy tabelę wyników wyszukiwania
             searchTableView.isHidden = false

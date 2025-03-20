@@ -15,6 +15,7 @@
 		5B6B445D2D8A1AA9006B50B2 /* IngredientModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6B445C2D8A1AA9006B50B2 /* IngredientModel.swift */; };
 		5B6B445F2D8AF183006B50B2 /* DrinkCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6B445E2D8AF183006B50B2 /* DrinkCard.swift */; };
 		5B6B44612D8AFA7E006B50B2 /* FavDrinkCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6B44602D8AFA7E006B50B2 /* FavDrinkCardView.swift */; };
+		5B6B44642D8C8F7A006B50B2 /* PatrickHand-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5B6B44632D8C8F7A006B50B2 /* PatrickHand-Regular.ttf */; };
 		5BA2B4602D7EE28C00F045D7 /* Solvro_MobileApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA2B45F2D7EE28C00F045D7 /* Solvro_MobileApp.swift */; };
 		5BA2B4622D7EE28C00F045D7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA2B4612D7EE28C00F045D7 /* ContentView.swift */; };
 		5BA2B4642D7EE28D00F045D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BA2B4632D7EE28D00F045D7 /* Assets.xcassets */; };
@@ -38,6 +39,7 @@
 		5B6B445C2D8A1AA9006B50B2 /* IngredientModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientModel.swift; sourceTree = "<group>"; };
 		5B6B445E2D8AF183006B50B2 /* DrinkCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinkCard.swift; sourceTree = "<group>"; };
 		5B6B44602D8AFA7E006B50B2 /* FavDrinkCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavDrinkCardView.swift; sourceTree = "<group>"; };
+		5B6B44632D8C8F7A006B50B2 /* PatrickHand-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PatrickHand-Regular.ttf"; sourceTree = "<group>"; };
 		5BA2B45C2D7EE28C00F045D7 /* Solvro Mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Solvro Mobile.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BA2B45F2D7EE28C00F045D7 /* Solvro_MobileApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solvro_MobileApp.swift; sourceTree = "<group>"; };
 		5BA2B4612D7EE28C00F045D7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -91,6 +93,14 @@
 			path = DrinkDetails;
 			sourceTree = "<group>";
 		};
+		5B6B44622D8C8F66006B50B2 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				5B6B44632D8C8F7A006B50B2 /* PatrickHand-Regular.ttf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
 		5BA2B4532D7EE28C00F045D7 = {
 			isa = PBXGroup;
 			children = (
@@ -110,6 +120,7 @@
 		5BA2B45E2D7EE28C00F045D7 /* Solvro Mobile */ = {
 			isa = PBXGroup;
 			children = (
+				5B6B44622D8C8F66006B50B2 /* Font */,
 				5BA2B4802D808F8C00F045D7 /* Components */,
 				5BA2B47D2D7F295200F045D7 /* ViewController */,
 				5BA2B47C2D7F294B00F045D7 /* ViewModel */,
@@ -247,6 +258,7 @@
 			files = (
 				5BA2B4672D7EE28D00F045D7 /* Preview Assets.xcassets in Resources */,
 				5BA2B4642D7EE28D00F045D7 /* Assets.xcassets in Resources */,
+				5B6B44642D8C8F7A006B50B2 /* PatrickHand-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

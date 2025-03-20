@@ -8,18 +8,18 @@ struct Solvro_MobileApp: App {
     
     init() {
         let tabBarAppearance = UITabBarAppearance()
-        tabBarAppearance.backgroundColor = UIColor(named: "Background")
+        tabBarAppearance.configureWithOpaqueBackground()  // Konfigurujemy wygląd z przezroczystym tłem
+        if let bgImage = UIImage(named: "CardBackground") {
+            tabBarAppearance.backgroundImage = bgImage
+            // Opcjonalnie: ustawienie tła na przezroczyste, aby obraz był widoczny
+            tabBarAppearance.backgroundColor = .clear
+        }
         UITabBar.appearance().standardAppearance = tabBarAppearance
         UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
-        
-        // Ustawienie tła dla UIHostingController, aby reszta widoku miała kolor z Assets.
+
         UIView.appearance(whenContainedInInstancesOf: [UIHostingController<AnyView>.self]).backgroundColor = UIColor(named: "Background")
-//        let navBarAppearance = UINavigationBarAppearance()
-//        navBarAppearance.configureWithOpaqueBackground()
-//        navBarAppearance.backgroundColor = UIColor(named: "Background")
-//        UINavigationBar.appearance().standardAppearance = navBarAppearance
-//        UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
     }
+
 
     var body: some Scene {
         WindowGroup {

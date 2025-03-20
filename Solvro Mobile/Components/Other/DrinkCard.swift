@@ -68,72 +68,87 @@ struct DrinkCardView: View {
                 .gesture(dragGesture)
             )
         } else {
-            // Full card view with all details.
+            // Karta z pełnymi danymi + tło z assetów (bez nakładki koloru)
             return AnyView(
-                VStack(alignment: .leading, spacing: 40) {
-                    Text(drink.name)
-                        .font(.system(size: 32, weight: .bold))
-                        .foregroundColor(.red)
-                        .multilineTextAlignment(.center)
-                        .frame(maxWidth: .infinity)
-                        .padding(.top, 10)
+                ZStack {
+                    // TŁO: obrazek z assetów
+                    Image("CardBackground")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(maxWidth: 340, maxHeight: .infinity)
+                        .clipped()
+                        .clipShape(RoundedRectangle(cornerRadius: 25))
                     
-                    if let url = URL(string: drink.imageUrl) {
-                        AsyncImage(url: url) { image in
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 200, height: 200)
-                                .clipShape(RoundedRectangle(cornerRadius: 8))
-                                .frame(maxWidth: .infinity)
-                        } placeholder: {
-                            ProgressView()
-                                .frame(width: 130, height: 130)
-                                .frame(maxWidth: .infinity)
+                    // ZAWARTOŚĆ KARTY
+                    VStack(alignment: .leading, spacing: 5) {
+                        Spacer()
+
+                        if let url = URL(string: drink.imageUrl) {
+                            AsyncImage(url: url) { image in
+                                image
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 200, height: 200)
+                                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                                    .frame(maxWidth: .infinity)
+                            } placeholder: {
+                                ProgressView()
+                                    .frame(width: 130, height: 130)
+                                    .frame(maxWidth: .infinity)
+                            }
                         }
-                    } else {
-                        Image(systemName: "photo")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 200, height: 200)
+                        
+                        Text(drink.name)
+                            .font(.custom("Noteworthy-Bold", size: 32))
+                            .foregroundColor(.white)
+                            .multilineTextAlignment(.center)
                             .frame(maxWidth: .infinity)
+
+                        Spacer()
                     }
-                    
-                    Text(drink.category)
-                        .font(.system(size: 24, weight: .bold))
-                        .foregroundColor(.black)
-                        .multilineTextAlignment(.center)
-                        .frame(maxWidth: .infinity)
-                        .padding(.top, 10)
-                    
-                    Text(drink.glass)
-                        .font(.system(size: 24, weight: .bold))
-                        .foregroundColor(.black)
-                        .multilineTextAlignment(.center)
-                        .frame(maxWidth: .infinity)
-                        .padding(.top, 10)
-                    
-                    Spacer()
+                    .padding(25)
                 }
-                .frame(height: 450)
-                .padding(25)
-                .background(
-                    RoundedRectangle(cornerRadius: 25)
-                        .fill(color)
-                        .shadow(radius: 10)
-                )
+                .frame(height: 500)                 // Rozmiar taki sam jak dla id == -1
+                .frame(maxWidth: .infinity)
+                .padding(.horizontal, 20)
                 .offset(x: offset.width, y: offset.height * 0.4)
                 .rotationEffect(.degrees(Double(offset.width / 40)))
-                .gesture(dragGesture)
+                .gesture(
+                    DragGesture()
+                        .onChanged { gesture in
+                            offset = gesture.translation
+                            // Usuwamy zmianę koloru – tło pozostaje obrazkiem
+                        }
+                        .onEnded { _ in
+                            let threshold: CGFloat = 50
+                            if abs(offset.width) > threshold {
+                                let direction: SwipeDirection = offset.width > 0 ? .right : .left
+                                withAnimation(.easeOut(duration: 0.3)) {
+                                    offset.width = direction == .right ? UIScreen.main.bounds.width : -UIScreen.main.bounds.width
+                                }
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                    onSwipe?(direction)
+                                    withAnimation {
+                                        offset = .zero
+                                    }
+                                }
+                            } else {
+                                withAnimation {
+                                    offset = .zero
+                                }
+                            }
+                        }
+                )
             )
         }
+
     }
 }
 
 #Preview {
     DrinkCardView(
         drink: Drink(
-            id: -1,
+            id: 1,
             name: "Cosmopolitan",
             category: "Cocktail",
             glass: "Cocktail glass",

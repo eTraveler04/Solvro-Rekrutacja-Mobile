@@ -64,6 +64,8 @@ struct FavoritesListView: View {
                 }
                 .onDelete(perform: deleteDrink)
             }
+//            .listStyle(.plain)
+            .listRowSpacing(8) // 8 to przykładowa wartość odstępu
             .navigationTitle("Ulubione Drinki")
             .onAppear {
                 displayDrinks = favoritesManager.favoriteDrinks

@@ -27,25 +27,17 @@ Aplikacja korzysta z:
 ➡️ [https://cocktails.solvro.pl/](https://cocktails.solvro.pl/)  
 
 ## 📸 Zrzuty ekranu  
-![image](https://github.com/user-attachments/assets/27726f5d-576f-454d-9b7c-7e2077507e7e)
-![image](https://github.com/user-attachments/assets/f476168e-e2f5-4603-8ccf-ea0f2f379ba6)
-![image](https://github.com/user-attachments/assets/d4f02da3-b5f7-4f62-a0a0-1233584bf35c)
-![image](https://github.com/user-attachments/assets/3829607f-e7d5-4569-a459-d83486bfad81)
-![image](https://github.com/user-attachments/assets/2175dc72-9856-432c-a11d-f75c58bb39a5)
+![image](https://github.com/user-attachments/assets/201077bd-ee73-42bd-82d2-9b6d7c14f806)
+![image](https://github.com/user-attachments/assets/18298a0a-ec67-4404-85ff-ca1134a81cb0)
+![image](https://github.com/user-attachments/assets/7f5aee7f-2bd6-4efd-b070-fc9d168e5dc0)
+![image](https://github.com/user-attachments/assets/d7f6457a-f909-482f-a47f-5e757cd36807)
 
 
 ## 📁 Struktura projektu *(skrótowo)*  
-- `/Views/` – główne ekrany aplikacji  
-- `/Components/` – komponenty interfejsu (np. karta drinka)  
-- `/Models/` – struktury danych  
-- `/Services/` – obsługa zapytań do API  
-- `/Utils/` – pomocnicze funkcje  
+![image](https://github.com/user-attachments/assets/647824f2-725d-45ed-8e52-84da93d6aae5)
+
 
 ## 📌 Uwagi końcowe  
-### Wygląd
-Jest w tym projekcie parę spraw wizualnych, które wymagałyby poprawy, jak np. paddingi miedzy elementami, różniący się drink detials popup w favorite i wszystkich drinkach.
-Różnice i niedociągnięcia spowodowane są tym, że niektóre struktury napisane są w swift, a niektóre za pomocą swiftui. Wiec, czasami niektóre elementy musiałem owarpować w coś rodzeaju konwertera. 
-Co powodowało zmianę wizualną. Napewno da się to łatwo ogarnąć, ale zabrałko już czasu. Mam nadzieję, że te minusy, zrękompensuję grafiką karty oraz specjalnym tłem :D
 
 ### Symulator a Preview 
 Uwaga! Od razu ostrzegam, że widok w preview różni się od widoku w symulatorze. Proszę, odpalajcie tylko symulator. 

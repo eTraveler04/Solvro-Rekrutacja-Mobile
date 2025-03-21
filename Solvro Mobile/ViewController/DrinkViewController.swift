@@ -5,17 +5,19 @@ class DrinksViewController: UIViewController {
     let tableView = UITableView()                // Główna tabela z listą drinków
     let searchTableView = UITableView()          // Tabela z wynikami wyszukiwania
     let viewModel = DrinksViewModel()
-    var mainTableManager: DrinksTableManager!    // Manager dla głównej tabeli
+    var mainTableManager: DrinksTableManager!    // Manager dla głwyk tabeli
     var searchTableManager: DrinksTableManager!  // Manager dla tabeli wyszukiwania
     let searchController = UISearchController(searchResultsController: nil)
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        extendedLayoutIncludesOpaqueBars = true
+
         title = "Koktajle" // Włącz mały tytuł
         view.backgroundColor = .white
         
-       navigationItem.largeTitleDisplayMode = .always  // Włącz duży tytuł
-       navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .always  // Włącz duży tytuł
+        navigationController?.navigationBar.prefersLargeTitles = true
         
         setupMainTableView()
         setupSearchTableView()
@@ -54,7 +56,7 @@ class DrinksViewController: UIViewController {
     }
     
     func setupTableManagers() {
-        // Manager dla głównej tabeli
+        // Manager dla głwy tabeli
         mainTableManager = DrinksTableManager(viewModel: viewModel, onLoadMore: { [weak self] in
             guard let self = self else { return }
             self.viewModel.currentPage += 1
@@ -118,34 +120,12 @@ class DrinksViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        guard let navBar = navigationController?.navigationBar else { return }
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground() // Ustawia nieprzezroczyste tło
-        
-        if let bgImage = UIImage(named: "CardBackground") {
-            appearance.backgroundImage = bgImage
-        } else {
-            appearance.backgroundColor = UIColor.systemBackground // fallback
+        if let nav = self.navigationController {
+            
         }
-        
-        // Ustaw tytuł na biały i dodaj przesunięcie w pionie (baselineOffset)
-        appearance.titleTextAttributes = [
-            .foregroundColor: UIColor.white,
-            .font: UIFont(name: "Noteworthy-Bold", size: 32) ?? UIFont.boldSystemFont(ofSize: 32),
-            .baselineOffset: -5  // Dodaje odstęp w pionie – wartość możesz dostosować
-        ]
-        
-        // Styl dużego tytułu
-        appearance.largeTitleTextAttributes = [
-            .foregroundColor: UIColor.white,
-            .font: UIFont(name: "Noteworthy-Bold", size: 36) ?? UIFont.boldSystemFont(ofSize: 38),
-            .baselineOffset: 20
-        ]
-        
-        navBar.standardAppearance = appearance
-        navBar.scrollEdgeAppearance = appearance
+        navigationController?.navigationBar.isTranslucent = false
     }
-
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
@@ -204,4 +184,3 @@ struct DrinksViewController_Previews: PreviewProvider {
         DrinksViewControllerRepresentable()
     }
 }
-

@@ -11,8 +11,11 @@ class DrinksViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Koktajle"
+        title = "Koktajle" // Włącz mały tytuł
         view.backgroundColor = .white
+        
+       navigationItem.largeTitleDisplayMode = .always  // Włącz duży tytuł
+       navigationController?.navigationBar.prefersLargeTitles = true
         
         setupMainTableView()
         setupSearchTableView()
@@ -92,6 +95,7 @@ class DrinksViewController: UIViewController {
             }
         }
         
+        
         navigationItem.searchController = searchController
         definesPresentationContext = true
     }
@@ -111,74 +115,33 @@ class DrinksViewController: UIViewController {
         }
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        
-//        guard let navBar = navigationController?.navigationBar else { return }
-//        let appearance = UINavigationBarAppearance()
-//        appearance.configureWithOpaqueBackground() // Ustawia nieprzezroczyste tło
-//        
-//        if let bgImage = UIImage(named: "CardBackground") {
-//            appearance.backgroundImage = bgImage
-//        } else {
-//            appearance.backgroundColor = UIColor.systemBackground // fallback
-//        }
-//        
-//        // Ustaw tytuł na biały i dodaj przesunięcie w pionie (baselineOffset)
-//        appearance.titleTextAttributes = [
-//            .foregroundColor: UIColor.white,
-//            .font: UIFont(name: "Noteworthy-Bold", size: 32) ?? UIFont.boldSystemFont(ofSize: 32),
-//            .baselineOffset: -10  // Dodaje odstęp w pionie – wartość możesz dostosować
-//        ]
-//        
-//        navBar.standardAppearance = appearance
-//        navBar.scrollEdgeAppearance = appearance
-//    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
         guard let navBar = navigationController?.navigationBar else { return }
         let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
+        appearance.configureWithOpaqueBackground() // Ustawia nieprzezroczyste tło
         
         if let bgImage = UIImage(named: "CardBackground") {
             appearance.backgroundImage = bgImage
         } else {
-            appearance.backgroundColor = UIColor.systemBackground
+            appearance.backgroundColor = UIColor.systemBackground // fallback
         }
-
-        // Styl tekstu (ten sam jak wcześniej)
-        let font = UIFont(name: "Noteworthy-Bold", size: 32) ?? UIFont.boldSystemFont(ofSize: 32)
-        let textColor = UIColor.white
-
-        // TitleView z paddingiem
-        let titleLabel = UILabel()
-        titleLabel.text = "Koktajle"
-        titleLabel.font = font
-        titleLabel.textColor = textColor
-
-        // baselineOffset nie istnieje w UILabel bez NSAttributedString – więc użyj go bezpośrednio:
-        let attributed = NSAttributedString(string: "Koktajle", attributes: [
-            .font: font,
-            .foregroundColor: textColor,
-            .baselineOffset: -10
-        ])
-        titleLabel.attributedText = attributed
-
-        // Padded container
-        let paddedTitleView = UIView()
-        paddedTitleView.addSubview(titleLabel)
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: paddedTitleView.topAnchor, constant: 8),
-            titleLabel.bottomAnchor.constraint(equalTo: paddedTitleView.bottomAnchor, constant: -8),
-            titleLabel.leadingAnchor.constraint(equalTo: paddedTitleView.leadingAnchor, constant: 16),
-            titleLabel.trailingAnchor.constraint(equalTo: paddedTitleView.trailingAnchor, constant: -16),
-            titleLabel.bottomAnchor.constraint(equalTo: paddedTitleView.bottomAnchor, constant: 50)
-        ])
-
-        navigationItem.titleView = paddedTitleView
-
+        
+        // Ustaw tytuł na biały i dodaj przesunięcie w pionie (baselineOffset)
+        appearance.titleTextAttributes = [
+            .foregroundColor: UIColor.white,
+            .font: UIFont(name: "Noteworthy-Bold", size: 32) ?? UIFont.boldSystemFont(ofSize: 32),
+            .baselineOffset: -5  // Dodaje odstęp w pionie – wartość możesz dostosować
+        ]
+        
+        // Styl dużego tytułu
+        appearance.largeTitleTextAttributes = [
+            .foregroundColor: UIColor.white,
+            .font: UIFont(name: "Noteworthy-Bold", size: 36) ?? UIFont.boldSystemFont(ofSize: 38),
+            .baselineOffset: 20
+        ]
+        
         navBar.standardAppearance = appearance
         navBar.scrollEdgeAppearance = appearance
     }
@@ -190,6 +153,15 @@ class DrinksViewController: UIViewController {
         let inset = UIEdgeInsets(top: 0, left: 0, bottom: view.safeAreaInsets.bottom + 20, right: 0)
         tableView.contentInset = inset
         searchTableView.contentInset = inset
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if let textfield = searchController.searchBar.value(forKey: "searchField") as? UITextField {
+            textfield.textColor = UIColor.white
+            textfield.defaultTextAttributes[.foregroundColor] = UIColor.white
+        }
     }
 }
 
@@ -226,9 +198,10 @@ struct DrinksViewControllerRepresentable: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: UINavigationController, context: Context) { }
 }
 
-//struct DrinksViewController_Previews: PreviewProvider {
-//    static var previews: some View {
-//        DrinksViewControllerRepresentable()
-//    }
-//}
+
+struct DrinksViewController_Previews: PreviewProvider {
+    static var previews: some View {
+        DrinksViewControllerRepresentable()
+    }
+}
 

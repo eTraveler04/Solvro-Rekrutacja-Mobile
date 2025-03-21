@@ -8,23 +8,42 @@ struct Solvro_MobileApp: App {
     
     init() {
         let tabBarAppearance = UITabBarAppearance()
-        tabBarAppearance.configureWithOpaqueBackground()  // Konfigurujemy wygląd z przezroczystym tłem
+        tabBarAppearance.configureWithOpaqueBackground()  
         if let bgImage = UIImage(named: "CardBackground") {
             tabBarAppearance.backgroundImage = bgImage
-            // Opcjonalnie: ustawienie tła na przezroczyste, aby obraz był widoczny
             tabBarAppearance.backgroundColor = .clear
         }
         UITabBar.appearance().standardAppearance = tabBarAppearance
         UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
 
         UIView.appearance(whenContainedInInstancesOf: [UIHostingController<AnyView>.self]).backgroundColor = UIColor(named: "Background")
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        if let bgImage = UIImage(named: "CardBackground") {
+            appearance.backgroundImage = bgImage
+        } else {
+            appearance.backgroundColor = UIColor.systemBackground
+        }
+        appearance.largeTitleTextAttributes = [
+            .foregroundColor: UIColor.white,
+            .font: UIFont(name: "Noteworthy-Bold", size: 36) ?? UIFont.boldSystemFont(ofSize: 38),
+            .baselineOffset: 20
+        ]
+        appearance.titleTextAttributes = [
+            .foregroundColor: UIColor.white,
+            .font: UIFont(name: "Noteworthy-Bold", size: 32) ?? UIFont.boldSystemFont(ofSize: 32),
+            .baselineOffset: -5
+        ]
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        UINavigationBar.appearance().compactAppearance = appearance
     }
 
 
     var body: some Scene {
         WindowGroup {
             ZStack {
-                // Użycie koloru z Assets jako tła dla całej aplikacji
                 Color("Background")
                     .ignoresSafeArea()
                 

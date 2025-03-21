@@ -4,11 +4,9 @@ import SwiftUI
 struct FavoritesListView: View {
     @ObservedObject var favoritesManager = FavoritesManager.shared
 
-    // Local copy to display. This lets the list remain unchanged until deletion is confirmed.
     @State private var displayDrinks: [Drink] = []
-    // State for the selected drink to show details.
     @State private var selectedDrink: Drink? = nil
-    
+
     var body: some View {
         NavigationView {
             List {
@@ -30,7 +28,7 @@ struct FavoritesListView: View {
                                 .resizable()
                                 .frame(width: 60, height: 60)
                         }
-                        
+
                         VStack(alignment: .leading, spacing: 4) {
                             Text(drink.name)
                                 .font(.headline)
@@ -40,9 +38,9 @@ struct FavoritesListView: View {
                                 .font(.caption)
                                 .foregroundColor(.gray)
                         }
-                        
+
                         Spacer()
-                        
+
                         Button(action: {
                             if favoritesManager.isFavorite(drink: drink) {
                                 favoritesManager.removeFavorite(drink: drink)
@@ -55,7 +53,6 @@ struct FavoritesListView: View {
                         }
                         .buttonStyle(BorderlessButtonStyle())
                     }
-                    // Make the whole row tappable for the popup.
                     .contentShape(Rectangle())
                     .onTapGesture {
                         selectedDrink = drink
@@ -64,25 +61,24 @@ struct FavoritesListView: View {
                 }
                 .onDelete(perform: deleteDrink)
             }
-//            .listStyle(.plain)
-            .listRowSpacing(8) // 8 to przykładowa wartość odstępu
+            .listRowSpacing(8)
             .navigationTitle("Ulubione Drinki")
+            .navigationBarTitleDisplayMode(.large)
             .onAppear {
                 displayDrinks = favoritesManager.favoriteDrinks
             }
-            // Present the drink details popup when a drink is selected.
             .sheet(item: $selectedDrink) { drink in
                 DrinkDetailsViewControllerRepresentable(drink: drink)
             }
         }
     }
-    
+
     private func deleteDrink(at offsets: IndexSet) {
-            offsets.forEach { index in
-                let drink = displayDrinks[index]
-                favoritesManager.removeFavorite(drink: drink)
-            }
+        offsets.forEach { index in
+            let drink = displayDrinks[index]
+            favoritesManager.removeFavorite(drink: drink)
         }
+    }
 }
 
 //struct FavoritesListView_Previews: PreviewProvider {

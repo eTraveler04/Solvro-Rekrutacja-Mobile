@@ -18,7 +18,8 @@ struct ThemeSwitcherView: View {
                 .padding()
                 .toggleStyle(SwitchToggleStyle(tint: .blue))
         }
-        .background(Color("Background").ignoresSafeArea())
+        // CHANGE: Make background transparent instead of using Color("Background")
+        .background(Color.clear)
     }
 }
 

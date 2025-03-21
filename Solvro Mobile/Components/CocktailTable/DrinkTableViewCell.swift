@@ -21,7 +21,6 @@ class DrinkTableViewCell: UITableViewCell {
     // ImageView, który wyświetli obraz
     let drinkImageView: UIImageView = {
         let imageView = UIImageView()
-//        imageView.contentMode = .scaleAspectFit   // skalowanie obrazu tak, aby był widoczny cały
         imageView.contentMode = .scaleAspectFill  // skalowanie obrazu tak, aby był widoczny cały
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -33,7 +32,8 @@ class DrinkTableViewCell: UITableViewCell {
         let label = UILabel()
         label.textAlignment = .center       // wyśrodkowanie tekstu
         label.numberOfLines = 0             // możliwość łamania tekstu
-        label.font = UIFont.systemFont(ofSize: 18) // powiększony rozmiar czcionki
+        // Ustawienie czcionki na "Noteworthy-Bold" w rozmiarze 32
+        label.font = UIFont(name: "Noteworthy-Bold", size: 24)
         return label
     }()
     
@@ -93,10 +93,6 @@ class DrinkTableViewCell: UITableViewCell {
         
         // Center the button vertically with the drinkImageView
         NSLayoutConstraint.activate([
-//            favoriteButton.centerYAnchor.constraint(equalTo: drinkImageView.topAnchor),
-//            favoriteButton.centerXAnchor.constraint(equalTo: drinkImageView.rightAnchor),
-//            favoriteButton.widthAnchor.constraint(equalToConstant: 40),
-//            favoriteButton.heightAnchor.constraint(equalToConstant: 40)
             favoriteButton.topAnchor.constraint(equalTo: drinkImageView.topAnchor),
             favoriteButton.trailingAnchor.constraint(equalTo: drinkImageView.trailingAnchor),
             favoriteButton.widthAnchor.constraint(equalToConstant: 40),

@@ -31,7 +31,7 @@ struct Solvro_MobileApp: App {
                 TabView {
                     FavDrinkCardView()
                         .tabItem {
-                            Label("", systemImage: "house")
+                            Label("", systemImage: "lanyardcard")
                         }
                     
                     DrinksViewControllerRepresentable()

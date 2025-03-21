@@ -27,6 +27,7 @@
 		5BA2B4832D808FB700F045D7 /* DrinkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA2B4822D808FB700F045D7 /* DrinkTableViewCell.swift */; };
 		5BA2B4892D80A72200F045D7 /* FavoriteDrinkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA2B4882D80A72100F045D7 /* FavoriteDrinkModel.swift */; };
 		5BE8CBE12D8E2293002078E4 /* MainNavigationContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE8CBE02D8E2293002078E4 /* MainNavigationContainerView.swift */; };
+		5BE8CBEB2D8E2C9D002078E4 /* AppearanceConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE8CBEA2D8E2C9D002078E4 /* AppearanceConfigurator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 		5BA2B4822D808FB700F045D7 /* DrinkTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinkTableViewCell.swift; sourceTree = "<group>"; };
 		5BA2B4882D80A72100F045D7 /* FavoriteDrinkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteDrinkModel.swift; sourceTree = "<group>"; };
 		5BE8CBE02D8E2293002078E4 /* MainNavigationContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationContainerView.swift; sourceTree = "<group>"; };
+		5BE8CBEA2D8E2C9D002078E4 /* AppearanceConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceConfigurator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,7 +69,6 @@
 		5B6B444D2D89F3E7006B50B2 /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				5B6B44592D8A1493006B50B2 /* DrinkDetails */,
 				5B6B444E2D89F3F6006B50B2 /* ThemeSwitcherView.swift */,
 				5B6B445E2D8AF183006B50B2 /* DrinkCard.swift */,
 			);
@@ -102,17 +103,16 @@
 		5BA2B45E2D7EE28C00F045D7 /* Solvro Mobile */ = {
 			isa = PBXGroup;
 			children = (
+				5BE8CBE92D8E2C94002078E4 /* Utils */,
 				5BE8CBDF2D8E1A6F002078E4 /* View */,
 				5BA2B4802D808F8C00F045D7 /* Components */,
 				5BA2B47B2D7F293F00F045D7 /* Service */,
-				5BA2B4772D7EE2C700F045D7 /* ApiManager.swift */,
 				5BA2B4722D7EE29800F045D7 /* Models */,
 				5BA2B45F2D7EE28C00F045D7 /* Solvro_MobileApp.swift */,
 				5BA2B4632D7EE28D00F045D7 /* Assets.xcassets */,
 				5BA2B4682D7EE28D00F045D7 /* Persistence.swift */,
 				5BA2B46A2D7EE28D00F045D7 /* Solvro_Mobile.xcdatamodeld */,
 				5BA2B4652D7EE28D00F045D7 /* Preview Content */,
-				5BE8CBE02D8E2293002078E4 /* MainNavigationContainerView.swift */,
 			);
 			path = "Solvro Mobile";
 			sourceTree = "<group>";
@@ -139,6 +139,7 @@
 		5BA2B47B2D7F293F00F045D7 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				5BA2B4772D7EE2C700F045D7 /* ApiManager.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -146,6 +147,7 @@
 		5BA2B4802D808F8C00F045D7 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				5B6B44592D8A1493006B50B2 /* DrinkDetails */,
 				5B6B444D2D89F3E7006B50B2 /* Other */,
 				5BA2B4812D808F9900F045D7 /* CocktailTable */,
 			);
@@ -164,11 +166,20 @@
 		5BE8CBDF2D8E1A6F002078E4 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				5BE8CBE02D8E2293002078E4 /* MainNavigationContainerView.swift */,
 				5B6B44602D8AFA7E006B50B2 /* FavDrinkCardView.swift */,
 				5B6B444B2D89F153006B50B2 /* FavoriteDrinkTable.swift */,
 				5BA2B4792D7EE38B00F045D7 /* DrinkViewController.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		5BE8CBE92D8E2C94002078E4 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				5BE8CBEA2D8E2C9D002078E4 /* AppearanceConfigurator.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -258,6 +269,7 @@
 				5BA2B4602D7EE28C00F045D7 /* Solvro_MobileApp.swift in Sources */,
 				5B6B445F2D8AF183006B50B2 /* DrinkCard.swift in Sources */,
 				5BA2B47F2D7F2C5D00F045D7 /* DrinksViewModel.swift in Sources */,
+				5BE8CBEB2D8E2C9D002078E4 /* AppearanceConfigurator.swift in Sources */,
 				5B6B444C2D89F153006B50B2 /* FavoriteDrinkTable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

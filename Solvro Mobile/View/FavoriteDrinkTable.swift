@@ -10,56 +10,58 @@ struct FavoritesListView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(displayDrinks) { drink in
-                    HStack(spacing: 16) {
-                        if let url = URL(string: drink.imageUrl) {
-                            AsyncImage(url: url) { image in
-                                image
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: 60, height: 60)
-                                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                            } placeholder: {
-                                ProgressView()
-                                    .frame(width: 60, height: 60)
-                            }
-                        } else {
-                            Image(systemName: "photo")
-                                .resizable()
-                                .frame(width: 60, height: 60)
-                        }
-
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(drink.name)
-                                .font(.headline)
-                            Text(drink.category)
-                                .font(.subheadline)
-                            Text(drink.glass)
-                                .font(.caption)
-                                .foregroundColor(.gray)
-                        }
-
-                        Spacer()
-
-                        Button(action: {
-                            if favoritesManager.isFavorite(drink: drink) {
-                                favoritesManager.removeFavorite(drink: drink)
+                Section(header: Spacer().frame(height: 20)) {
+                    ForEach(displayDrinks) { drink in
+                        HStack(spacing: 16) {
+                            if let url = URL(string: drink.imageUrl) {
+                                AsyncImage(url: url) { image in
+                                    image
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 60, height: 60)
+                                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                                } placeholder: {
+                                    ProgressView()
+                                        .frame(width: 60, height: 60)
+                                }
                             } else {
-                                favoritesManager.addFavorite(drink: drink)
+                                Image(systemName: "photo")
+                                    .resizable()
+                                    .frame(width: 60, height: 60)
                             }
-                        }) {
-                            Image(systemName: favoritesManager.isFavorite(drink: drink) ? "star.fill" : "star")
-                                .foregroundColor(.yellow)
+
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(drink.name)
+                                    .font(.headline)
+                                Text(drink.category)
+                                    .font(.subheadline)
+                                Text(drink.glass)
+                                    .font(.caption)
+                                    .foregroundColor(.gray)
+                            }
+
+                            Spacer()
+
+                            Button(action: {
+                                if favoritesManager.isFavorite(drink: drink) {
+                                    favoritesManager.removeFavorite(drink: drink)
+                                } else {
+                                    favoritesManager.addFavorite(drink: drink)
+                                }
+                            }) {
+                                Image(systemName: favoritesManager.isFavorite(drink: drink) ? "star.fill" : "star")
+                                    .foregroundColor(.yellow)
+                            }
+                            .buttonStyle(BorderlessButtonStyle())
                         }
-                        .buttonStyle(BorderlessButtonStyle())
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            selectedDrink = drink
+                        }
+                        .padding(.vertical, 4)
                     }
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        selectedDrink = drink
-                    }
-                    .padding(.vertical, 4)
+                    .onDelete(perform: deleteDrink)
                 }
-                .onDelete(perform: deleteDrink)
             }
             .listRowSpacing(8)
             .navigationTitle("Ulubione Drinki")
@@ -80,4 +82,3 @@ struct FavoritesListView: View {
         }
     }
 }
-

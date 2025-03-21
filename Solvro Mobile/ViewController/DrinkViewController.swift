@@ -1,72 +1,99 @@
+//
+//  ExampleView.swift
+//  SomeProject
+//
+//  Created by You on 3/20/25.
+//
+
 import UIKit
 import SwiftUI
 
 class DrinksViewController: UIViewController {
-    let tableView = UITableView()                // Główna tabela z listą drinków
-    let searchTableView = UITableView()          // Tabela z wynikami wyszukiwania
+    // MARK: - Properties
+    let tableView = UITableView()                // Main table view
+    let searchTableView = UITableView()          // Table view for search results
     let viewModel = DrinksViewModel()
-    var mainTableManager: DrinksTableManager!    // Manager dla głównej tabeli
-    var searchTableManager: DrinksTableManager!  // Manager dla tabeli wyszukiwania
+    var mainTableManager: DrinksTableManager!    // Manager for main table
+    var searchTableManager: DrinksTableManager!  // Manager for search results table
     let searchController = UISearchController(searchResultsController: nil)
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Usuwamy ręczne zarządzanie wcięciami.
-        // extendedLayoutIncludesOpaqueBars = true
-        // additionalSafeAreaInsets.top = 35
-        
-        title = "Koktajle"
         view.backgroundColor = .white
+        title = "Koktajle"
         
-        // Włącz duży tytuł
-        navigationItem.largeTitleDisplayMode = .always
-        navigationController?.navigationBar.prefersLargeTitles = true
-        
-        setupMainTableView()
-        setupSearchTableView()
+        configureNavigationBar()
+        setupTableViews()
         setupTableManagers()
-        setupSearchController()
-        
-        // Delegaci searchControllera i searchBar
-        searchController.delegate = self
-        searchController.searchBar.delegate = self
-        
+        configureSearchController()
+        configureSearchDelegates()
         bindViewModel()
+        configureTableManagersSelection()
         
-        // Ustawienie akcji przy tapnięciu w komórkę (otwarcie szczegółów drinka)
-        mainTableManager.didSelectDrink = { [weak self] drink in
-            guard let self = self else { return }
-            let detailsVC = DrinkDetailsViewController(drink: drink)
-            let nav = UINavigationController(rootViewController: detailsVC)
-            nav.modalPresentationStyle = .formSheet
-            self.present(nav, animated: true, completion: nil)
-        }
-        
-        // Dla wyszukiwania wykorzystujemy tę samą akcję
-        searchTableManager.didSelectDrink = mainTableManager.didSelectDrink
-        
-        // Początkowe pobranie danych dla głównej tabeli
+        // Initial fetch for main table.
         mainTableManager.isLoading = true
         viewModel.fetchDrinks(page: viewModel.currentPage)
     }
     
-    func setupMainTableView() {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Reset search controller state if active.
+        if searchController.isActive {
+            searchController.searchBar.text = ""
+            searchController.isActive = false
+            view.endEditing(true)
+        }
+        
+        // Ensure main table is visible.
+        tableView.isHidden = false
+        searchTableView.isHidden = true
+        view.bringSubviewToFront(tableView)
+        
+        // Reload tables to update states like star fill.
+        tableView.reloadData()
+        searchTableView.reloadData()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        tableView.frame = view.bounds
+        searchTableView.frame = view.bounds
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let textfield = searchController.searchBar.value(forKey: "searchField") as? UITextField {
+            textfield.textColor = UIColor.white
+            textfield.defaultTextAttributes[.foregroundColor] = UIColor.white
+        }
+    }
+    
+    // MARK: - Configuration Methods
+    private func configureNavigationBar() {
+        // Set large title settings.
+        navigationItem.largeTitleDisplayMode = .always
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.isTranslucent = false
+    }
+    
+    private func setupTableViews() {
+        // Setup main table view.
         tableView.frame = view.bounds
         tableView.register(DrinkTableViewCell.self, forCellReuseIdentifier: "DrinkCell")
         view.addSubview(tableView)
-        tableView.isHidden = false   // Główna tabela widoczna domyślnie
-    }
-    
-    func setupSearchTableView() {
+        tableView.isHidden = false
+        
+        // Setup search results table view.
         searchTableView.frame = view.bounds
         searchTableView.register(DrinkTableViewCell.self, forCellReuseIdentifier: "DrinkCell")
         view.addSubview(searchTableView)
-        searchTableView.isHidden = true  // Tabela wyszukiwania ukryta domyślnie
+        searchTableView.isHidden = true
     }
     
-    func setupTableManagers() {
-        // Manager dla głównej tabeli
+    private func setupTableManagers() {
+        // Configure main table manager.
         mainTableManager = DrinksTableManager(viewModel: viewModel, onLoadMore: { [weak self] in
             guard let self = self else { return }
             self.viewModel.currentPage += 1
@@ -75,7 +102,7 @@ class DrinksViewController: UIViewController {
         tableView.dataSource = mainTableManager
         tableView.delegate = mainTableManager
         
-        // Manager dla tabeli wyszukiwania
+        // Configure search table manager.
         searchTableManager = DrinksTableManager(viewModel: viewModel, onLoadMore: { [weak self] in
             guard let self = self else { return }
             self.viewModel.currentSearchPage += 1
@@ -87,31 +114,32 @@ class DrinksViewController: UIViewController {
         searchTableView.delegate = searchTableManager
     }
     
-    func setupSearchController() {
+    private func configureSearchController() {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Wyszukaj koktajl"
         
-        // Customize the search bar's text field
+        // Customize search bar's text field.
         if let textfield = searchController.searchBar.value(forKey: "searchField") as? UITextField {
-            // Zmiana koloru placeholdera (np. jasnoszary)
-            textfield.attributedPlaceholder = NSAttributedString(string: searchController.searchBar.placeholder ?? "", attributes: [
-                .foregroundColor: UIColor.lightGray
-            ])
-            // Zmiana koloru tekstu, jeśli potrzeba
-            textfield.textColor = UIColor.white
-            
-            // Zmiana koloru ikony lupy (left view)
+            textfield.attributedPlaceholder = NSAttributedString(
+                string: searchController.searchBar.placeholder ?? "",
+                attributes: [.foregroundColor: UIColor.lightGray]
+            )
+            textfield.textColor = .white
             if let leftIconView = textfield.leftView as? UIImageView {
-                leftIconView.tintColor = UIColor.white
+                leftIconView.tintColor = .white
             }
         }
-        
         navigationItem.searchController = searchController
         definesPresentationContext = true
     }
     
-    func bindViewModel() {
+    private func configureSearchDelegates() {
+        searchController.delegate = self
+        searchController.searchBar.delegate = self
+    }
+    
+    private func bindViewModel() {
         viewModel.onDataUpdated = { [weak self] in
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
@@ -126,48 +154,16 @@ class DrinksViewController: UIViewController {
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        // Jeśli searchController jest aktywny, wyczyść tekst i dezaktywuj go.
-        if searchController.isActive {
-            searchController.searchBar.text = ""
-            searchController.isActive = false
-            view.endEditing(true)
+    private func configureTableManagersSelection() {
+        let selectionHandler: (Drink) -> Void = { [weak self] drink in
+            guard let self = self else { return }
+            let detailsVC = DrinkDetailsViewController(drink: drink)
+            let nav = UINavigationController(rootViewController: detailsVC)
+            nav.modalPresentationStyle = .formSheet
+            self.present(nav, animated: true, completion: nil)
         }
-        
-        // Upewnij się, że główna tabela jest widoczna.
-        tableView.isHidden = false
-        searchTableView.isHidden = true
-        view.bringSubviewToFront(tableView)
-        
-        // Odśwież widok tabel, aby zaktualizować status gwiazdek itp.
-        tableView.reloadData()
-        searchTableView.reloadData()
-        
-        // Pozostawiamy domyślne zachowanie iOS co do insets
-        navigationController?.navigationBar.isTranslucent = false
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        // Ustawiamy ramki na cały widok
-        tableView.frame = view.bounds
-        searchTableView.frame = view.bounds
-        
-        // Nie manipulujemy ujemnym top inset
-        // i pozwalamy iOS kontrolować wcięcia pod duży tytuł i search bar
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        // Upewniamy się, że kolor tekstu w polu wyszukiwania jest biały
-        if let textfield = searchController.searchBar.value(forKey: "searchField") as? UITextField {
-            textfield.textColor = UIColor.white
-            textfield.defaultTextAttributes[.foregroundColor] = UIColor.white
-        }
+        mainTableManager.didSelectDrink = selectionHandler
+        searchTableManager.didSelectDrink = selectionHandler
     }
 }
 
@@ -175,16 +171,15 @@ class DrinksViewController: UIViewController {
 extension DrinksViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         let query = searchController.searchBar.text ?? ""
-        
         if query.isEmpty {
-            // Gdy pole wyszukiwania jest puste, pokazujemy główną tabelę
+            // When search field is empty, show main table.
             searchTableView.isHidden = true
             tableView.isHidden = false
             view.bringSubviewToFront(tableView)
             searchTableManager.isSearching = false
             viewModel.onDataUpdated?()
         } else {
-            // Gdy wyszukujemy, pokazujemy tabelę wyników wyszukiwania
+            // When user is searching, display search results table.
             searchTableView.isHidden = false
             tableView.isHidden = true
             view.bringSubviewToFront(searchTableView)
@@ -197,20 +192,18 @@ extension DrinksViewController: UISearchResultsUpdating {
 
 // MARK: - UISearchBarDelegate, UISearchControllerDelegate
 extension DrinksViewController: UISearchBarDelegate, UISearchControllerDelegate {
-    
-    // Metoda wywoływana, gdy użytkownik kliknie Cancel
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        // Jeśli chcesz dodatkowo wymusić offset tabeli, możesz zrobić to tutaj:
         DispatchQueue.main.async {
-            // Przykład: offset na (0,0) lub inny dopasowany do layoutu
-            self.tableView.setContentOffset(.zero, animated: false)
+            let offset = CGPoint(x: 0, y: -self.tableView.adjustedContentInset.top)
+            self.tableView.setContentOffset(offset, animated: true)
         }
     }
     
-    // Metoda wywoływana po całkowitym „zwinięciu” searchControllera
     func didDismissSearchController(_ searchController: UISearchController) {
-        // Możesz również tu zresetować offset, jeśli jest taka potrzeba.
-        // self.tableView.setContentOffset(.zero, animated: false)
+        DispatchQueue.main.async {
+            let offset = CGPoint(x: 0, y: -self.tableView.adjustedContentInset.top)
+            self.tableView.setContentOffset(offset, animated: true)
+        }
     }
 }
 

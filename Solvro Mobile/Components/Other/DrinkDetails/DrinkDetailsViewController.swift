@@ -13,7 +13,7 @@ class DrinkDetailsViewController: UIViewController {
     
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 24)
+        label.font = UIFont(name: "Noteworthy-Bold", size: 32)
         label.textAlignment = .center
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -22,7 +22,7 @@ class DrinkDetailsViewController: UIViewController {
     
     let instructionsLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = UIFont(name: "Noteworthy-Bold", size: 18)
         label.numberOfLines = 0
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -32,7 +32,7 @@ class DrinkDetailsViewController: UIViewController {
     // New label for displaying ingredients.
     let ingredientsLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.italicSystemFont(ofSize: 14)
+        label.font = UIFont(name: "Noteworthy-Bold", size: 16)
         label.numberOfLines = 0
         label.textAlignment = .center
         label.textColor = .white

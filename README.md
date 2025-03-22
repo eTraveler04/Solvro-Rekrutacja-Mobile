@@ -40,7 +40,8 @@ Aplikacja korzysta z:
 ## 📌 Uwagi końcowe  
 
 ### Symulator a Preview 
-Uwaga! Od razu ostrzegam, że widok w preview różni się od widoku w symulatorze. Proszę, odpalajcie tylko symulator. Wszystko sprawdzałem jedynie dla Iphone 15 Pr.
+Uwaga! Od razu ostrzegam, że widok w preview różni się od widoku w symulatorze. Proszę, odpalajcie tylko symulator. 
+Wszystko sprawdzałem jedynie dla Iphone 15 Pro.
 
 ### Funkcjonalności 
 Najważniejsze jest to, że tabele i aktualizacja przycisku dodwania do ulubionych ( gwiazdka ), działa poprawnie, odświeża się autoamtycznie, jeżeli została zmieniona w innym widoku.
